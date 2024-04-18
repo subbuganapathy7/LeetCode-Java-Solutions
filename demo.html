@@ -1,0 +1,78 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta name="viewport" content="initial-scale=1.0, user-scalable=no">
+    <meta charset="utf-8">
+    <title>KML Click Capture Sample</title>
+    <style>
+        html,
+        body {
+            height: 370px;
+            padding: 0;
+            margin: 0;
+        }
+
+        #map {
+            height: 600px;
+            width: 100%;
+            overflow: hidden;
+            float: left;
+            border: thin solid #333;
+        }
+
+        #capture {
+            height: 300px;
+            width: 300px;
+            overflow: hidden;
+            float: left;
+            background-color: #ECECFB;
+            border: thin solid #333;
+            border-left: none;
+        }
+    </style>
+</head>
+
+<body>
+    <div>
+        <div id="map"></div>
+        <div id="capture">
+            <h1>Click on Items!</h1>
+        </div>
+
+    </div>
+    <script>
+        var map;
+
+        // var src = 'https://mr-man7352.github.io/emedding-map/jharkhand.kml';
+        var src = 'https://raw.githubusercontent.com/Mr-man7352/emedding-map/main/poc.kml';
+        // var src = 'https://raw.githubusercontent.com/aviklai/react-leaflet-kml/master/src/assets/example1.kml'
+
+        function initMap() {
+            map = new google.maps.Map(document.getElementById('map'), {
+                center: new google.maps.LatLng(23.76701003454233, 86.25580163665583),
+                zoom: 7,
+                mapTypeId: 'roadmap'
+            });
+
+            var kmlLayer = new google.maps.KmlLayer(src, {
+                // suppressInfoWindows: true,
+                // preserveViewport: false,
+                map: map
+            });
+            console.log('kml', kmlLayer);
+            // console.log(kmlLayer.kml.metadata);
+            kmlLayer.addListener('click', function (event) {
+                console.log('hi click');
+                var content = event.featureData.infoWindowHtml;
+                var testimonial = document.getElementById('capture');
+                testimonial.innerHTML = content;
+            });
+        }
+    </script>
+    <script async
+        src="https://maps.googleapis.com/maps/api/js?key=AIzaSyDR3FVKoE4t-H4yFqcGLC70uep_Vb6w3JA&callback=initMap">
+        </script>
+</body>
+
+</html>
